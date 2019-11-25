@@ -1,0 +1,7 @@
+extends layout
+block contenido
+    .contenido-principal
+        h2= nombrePagina
+        .contenedor-acciones
+            a.boton(href=`/proyectos/editar/${proyecto.id}`) Editar Proyecto
+            button#btnEliminarProyecto.boton.eliminar(type="button" data-nombre=`${proyecto.nombre}`) Eliminar

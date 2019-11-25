@@ -1,0 +1,12 @@
+extends layout
+include mixins/formProyecto
+block contenido
+    .contenido-principal
+        h2= nombrePagina
+        if mensajes
+            .alertas
+                each categoria in Object.keys(mensajes)
+                    each error in mensajes[categoria]
+                        .alerta(class=categoria)
+                            p= error
+        +crearProyecto(proyecto)

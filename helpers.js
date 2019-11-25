@@ -1,0 +1,1 @@
+exports.vardump = (variable) => { return JSON.stringify(variable, null, 2); }
