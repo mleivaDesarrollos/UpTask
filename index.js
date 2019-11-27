@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 3000;
 
 // Cargamos las bases de datos
 require('./models/Proyectos');
+require('./models/Tareas');
 
 db.sync(() => {
     console.log("Base de datos sincronizada exitosamente");

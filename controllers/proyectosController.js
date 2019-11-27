@@ -1,4 +1,5 @@
 const Proyecto = require('../models/Proyectos');
+const Tarea = require('../models/Tareas');
 
 // Middleware que carga todos los proyectos
 exports.listar = async (req, res, next) => {
@@ -49,10 +50,13 @@ exports.porUrl = async(req, res) => {
     const proyecto = await Proyecto.findOne({where: {url}});
     // Validamos si el proyecto fue encontrado
     if(proyecto) {
+        // Traemos todos las tareas vinculadas con este proyecto
+        const tareas = await Tarea.findAll({where: {proyectoId: proyecto.id}})
         // Renderizamos la vista de proyecto
         res.render('tareas', {
             nombrePagina: `Tareas - ${proyecto.nombre}`,
-            proyecto
+            proyecto,
+            tareas
         });
     }
 }
@@ -90,4 +94,14 @@ exports.editar = async(req, res) => {
         // Redirigimos el sitio hacia la edición de proyecto
         res.redirect(`/proyectos/${proyecto.url}`);
     }
+}
+
+// Ruta para eliminar un proyecto de la base de datos
+exports.eliminar = async (req, res, next) => {
+    // Recolectamos la URL del proyecto a eliminar
+    const {url} = req.params;
+    // Destruimos el proyecto en cuestion
+    await Proyecto.destroy({where: {url}});
+    // Una vez eliminado redirigimos al home
+    res.status(200).send("Se ha eliminado correctamente el proyecto");
 }

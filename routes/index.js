@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 const {body} = require("express-validator");
 
-
 // Cargamos los controladores
 const proyectosController = require('../controllers/proyectosController');
+const tareasController = require('../controllers/tareasController');
 
 // Cargamos todos los proyectos usando el middleware correspondiente
 router.use(proyectosController.listar);
@@ -24,7 +24,14 @@ router.get('/proyectos/editar/:id', proyectosController.formEditar);
 router.post('/proyectos/editar/:id', proyectosController.editar);
 
 // Rutas para eliminar el proyecto
-router.delete('/proyectos/:url', (req, res) => { res.status(401).send("ok");});
+router.delete('/proyectos/:url', proyectosController.eliminar);
+
+// Rutas para agregar una tarea a un proyecto
+router.post('/proyectos/:url', tareasController.agregar);
+
+// Rutas para tareas
+router.post('/tareas/:id', tareasController.cambiarEstado);
+router.delete('/tareas/:id', tareasController.eliminar);
 
 // Exportamos el modelo
 module.exports = router;

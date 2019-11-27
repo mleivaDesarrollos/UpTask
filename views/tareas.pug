@@ -2,6 +2,34 @@ extends layout
 block contenido
     .contenido-principal
         h2= nombrePagina
+        //- Disponemos del formulario para agregar una tarea
+        form.agregar-tarea(action=`/proyectos/${proyecto.url}`, method="POST")
+            .campo
+                label(for="tarea") Tarea:
+                input.nombre-tarea(type="text" name="tarea" placeholder="Ingrese nombre de la tarea")
+            .campo.enviar
+                input.boton.nueva-tarea(type="submit", value="Agregar")
+
+        //-pre= vardump(tareas)
+        .listado-pendientes
+            ul
+                if tareas.length
+                    each tarea in tareas
+                        li.tarea(data-tarea=tarea.id)
+                            p= tarea.tarea
+                            .acciones
+                                if tarea.estado == 0
+                                    i.far.fa-check-circle
+                                else
+                                    i.far.fa-check-circle.completo
+                                i.far.fa-trash-alt
+                                    
+                else
+                    p No hay tareas en el proyecto
+        .avance
+            h2 Avance del proyecto
+            #barra-avance.barra-avance
+                #porcentaje.porcentaje
         .contenedor-acciones
             a.boton(href=`/proyectos/editar/${proyecto.id}`) Editar Proyecto
             button#btnEliminarProyecto.boton.eliminar(type="button" data-nombre=`${proyecto.nombre}`) Eliminar
