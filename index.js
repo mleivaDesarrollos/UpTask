@@ -11,6 +11,7 @@ const localMiddlewares = require('./middlewares');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const passport = require('./config/passport');
 
 
 // Cargamos las variables de entorno
@@ -39,6 +40,10 @@ app.use(session({secret: "clave Secreta", saveUninitialized:false, resave:false}
 app.use(cookieParser());
 
 app.use(flash());
+
+// Cargamos la librería passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(localMiddlewares);
 

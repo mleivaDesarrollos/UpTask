@@ -3,8 +3,10 @@ const Tarea = require('../models/Tareas');
 
 // Middleware que carga todos los proyectos
 exports.listar = async (req, res, next) => {
+    // Levantamos el ID de usuario
+    const usuarioId = res.locals.usuario.id;
     // Cargamos los proyectos
-    const proyectos = await Proyecto.findAll();
+    const proyectos = await Proyecto.findAll({where: {usuarioId}});
     // Cargamos los proyecto en una variable local
     res.locals.proyectos = proyectos;
     // Continuamos con lo siguiente
@@ -12,7 +14,7 @@ exports.listar = async (req, res, next) => {
 }
 
 // Disponemos el módulo de home
-exports.home = (req, res) => {
+exports.home = (req, res) => {    
     res.render('index', {
         nombrePagina: "Proyectos"
     })
@@ -27,6 +29,8 @@ exports.formNuevo = (req, res) => {
 
 // Accionador de nuevos proyectos
 exports.nuevo = async (req, res) => {
+    // Levantamos el Id del usuario para registrarlo a su nombre
+    const usuarioId = res.locals.usuario.id;
     // Obtenemos el nombre del proyecto
     const {nombre} = req.body;
     // Validamos si se cargó un nombre
@@ -37,7 +41,7 @@ exports.nuevo = async (req, res) => {
         res.redirect('/nuevo-proyecto');
     } else {
         // Guardamos en la base de datos
-        await Proyecto.create({nombre});
+        await Proyecto.create({nombre, usuarioId});
         // Redireccionamos
         res.redirect('/');
     }

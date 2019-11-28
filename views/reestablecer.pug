@@ -1,0 +1,19 @@
+extends loginLayout
+block contenido
+    h1 Reestablecer contraseña en UpTask
+
+    if mensajes
+        .alertas
+            each categoria in Object.keys(mensajes)
+                each mensaje in categoria
+                    .alerta(class=`${categoria}`)
+                        p mensaje
+    
+    form#formulario.caja.caja-login(action="/reestablecer", method="POST")
+        .campo
+            label(for="email") Email: 
+            input(type="email", name="email" placeholder="Ingrese el email a resetear...")
+        .campo.enviar
+            input.boton(type="submit" value="Resetear")
+        .campo.acciones
+            a(href="/iniciar-sesion") ¡Un momento! Ya recorde la contraseña.

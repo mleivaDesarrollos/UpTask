@@ -7,6 +7,8 @@ module.exports = (req, res, next) => {
     res.locals.mensajes = req.flash();
     // Disponemos el año por si lo queremos utilizar en las vistas
     res.locals.year = new Date().getFullYear();
+    // Disponemos del usuario
+    res.locals.usuario = {...req.user} || null;
     // Continuamos la secuencia
     next();
 }

@@ -6,6 +6,27 @@ const {body} = require("express-validator");
 // Cargamos los controladores
 const proyectosController = require('../controllers/proyectosController');
 const tareasController = require('../controllers/tareasController');
+const usuariosContorller = require('../controllers/usuariosController');
+const authController = require('../controllers/authController');
+
+
+// Ruteos para inicio de sesion
+router.get('/iniciar-sesion', authController.formIniciarSesion);
+router.post('/iniciar-sesion', authController.autenticarUsuario);
+
+// Ruteos para generación de cuentas
+router.get('/crear-cuenta', usuariosContorller.formCrearCuenta);
+router.post('/crear-cuenta', usuariosContorller.crearCuenta);
+
+// Ruteos para Reestablecer contraseñas
+router.get('/reestablecer', authController.formResetearPassword);
+router.post('/reestablecer');
+
+// A partir de este punto comienzan las validaciones de logueo
+router.use(authController.esUsuarioAutenticado);
+
+// Ruteo para realizar cierre de sesión
+router.get('/cerrar-sesion', authController.cerrarSession);
 
 // Cargamos todos los proyectos usando el middleware correspondiente
 router.use(proyectosController.listar);

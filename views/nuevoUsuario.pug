@@ -1,0 +1,21 @@
+extends loginLayout
+block contenido
+    h1 Crea tu usuario en UpTask
+
+    if mensajes
+        .alertas
+            each categoria in Object.keys(mensajes)
+                each mensaje in mensajes[categoria]
+                    .alerta(class=`${categoria}`)
+                        p= mensaje
+        form#formulario.caja.caja-login(method="POST" action="/crear-cuenta")
+            .campo
+                label(for="email") Email: 
+                input(type="text" name="email" placeholder="Ingrese correo electrónico de usuario...")
+            .campo
+                label(for="password") Password: 
+                input(type="password", name="password" placeholder="Ingrese contraseña...")
+            .campo.enviar
+                input.boton(type="submit", value="Crear")
+            .campo
+                a(href="/iniciar-sesion") Volver a iniciar sesion

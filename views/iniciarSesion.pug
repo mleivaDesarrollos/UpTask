@@ -1,0 +1,23 @@
+extends loginLayout
+block contenido
+    h1 Inicia sesión en UpTask
+
+    if mensajes
+        .alertas
+            each categoria in Object.keys(mensajes)
+                each mensaje in mensajes[categoria]
+                    .alerta(class=`${categoria}`)
+                        p= mensaje
+
+    form#formulario.caja.caja-login(action="/iniciar-sesion", method="POST")
+        .campo
+            label(for="email") Email: 
+            input(type="text", name="email" placeholder="Ingresa tu correo electrónico...")
+        .campo
+            label(for="password") Password:
+            input(type="password", name="password" placeholder="Ingresa tu contraseña...")
+        .campo.enviar
+            input.boton(type="submit" value="Ingresar")
+        .campo.acciones
+            a(href="/crear-cuenta") Crea tu cuenta gratis
+            a(href="/reestablecer") ¿Olvidaste tu clave?
