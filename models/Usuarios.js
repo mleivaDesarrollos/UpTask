@@ -4,6 +4,9 @@ const db = require('../config/db');
 const bcrypt = require('bcrypt-nodejs');
 const Proyectos = require('./Proyectos');
 
+const hashPassword = function(password){
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+}
 
 const Usuarios = db.define('usuarios', {
     id:{
@@ -51,13 +54,17 @@ const Usuarios = db.define('usuarios', {
             beforeCreate(usuario) {
             // Antes de registrar una contraseña en la base de datos utilizamos el método de bcrypt hashSync
             // Para que podamos proteger las claves de guardado en texto plano
-            usuario.password = bcrypt.hashSync(usuario.password, bcrypt.genSaltSync(10));
+            usuario.password = hashPassword(usuario.password);
         }
     }
 });
 
 Usuarios.prototype.verificarPassword = function(password_comparator) {
     return bcrypt.compareSync(password_comparator, this.password);
+}
+
+Usuarios.prototype.hashearPassword = function(password) {
+    return hashPassword(password);
 }
 
 Usuarios.hasMany(Proyectos);

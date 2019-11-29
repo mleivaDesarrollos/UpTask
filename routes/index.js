@@ -17,10 +17,15 @@ router.post('/iniciar-sesion', authController.autenticarUsuario);
 // Ruteos para generación de cuentas
 router.get('/crear-cuenta', usuariosContorller.formCrearCuenta);
 router.post('/crear-cuenta', usuariosContorller.crearCuenta);
+router.get('/validar-cuenta/:email', usuariosContorller.activarCuenta);
 
 // Ruteos para Reestablecer contraseñas
 router.get('/reestablecer', authController.formResetearPassword);
-router.post('/reestablecer');
+router.post('/reestablecer', authController.enviarToken);
+
+// Ruteos para reseteo de contraseña
+router.get('/reestablecer/:token', authController.validarToken);
+router.post('/reestablecer/:token', authController.resetearClave);
 
 // A partir de este punto comienzan las validaciones de logueo
 router.use(authController.esUsuarioAutenticado);

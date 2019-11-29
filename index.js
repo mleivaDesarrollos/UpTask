@@ -50,7 +50,6 @@ app.use(localMiddlewares);
 // Disponemos de las rutas
 app.use('/', router);
 
-
 // Corremos el servidor sobre el puerto indicado
 app.listen(PORT, HOST,() => {
     console.log(`El servidor ${HOST} esta operando sobre el puerto ${PORT}`);
